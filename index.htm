@@ -144,7 +144,8 @@
     <thead>
       <tr>
         <th>Item</th>
-        <th>Descrição da Verificação</th>
+        <th>Itens a serem verificados em relação ao Equipamento</th>
+        <th>Como é feita a conferência</th> <th>Valor/Situação</th>
         <th>Conforme</th>
         <th>Não Conforme</th>
         <th>Não Aplica</th>
@@ -153,41 +154,48 @@
     <tbody>
       <script>
         const atividades = [
-          ["1", "Verificar o travamento e o destravamento do cinto"],
-          ["2", "Acionar os comandos e certificar-se que há emissão de som para os dois itens"],
-          ["3", "Verificar se está devidamente travada"],
-          ["4", "Movimentar a empilhadeira para frente, para trás e para as laterais, checando se existe alguma anomalia"],
-          ["5", "Observar e certificar-se que não há vazamentos"],
-          ["6", "Verificar se manômetro está no verde (pressurizado)"],
-          ["7", "Acionar os comandos e certificar-se que todos itens acendem"],
-          ["8", "Certificar-se que não há odor de gás no registro e na mangueira"],
-          ["9", "Observar nível de desgaste dos itens e calibração dos pneus. Certificar-se que não há anomalias"],
-          ["10", "Observar se há trincas e o nível desgaste dos itens. Certificar-se que não há anomalias"],
-          ["11", "Acionar todas as alavancas (comandos) e certificar-se que não há anomalias"],
-          ["12", "Realizar inspeção visual (geral) do equipamento"],
-          ["13", "Verificar se o nível do radiador está entre o nível mínimo e o máximo"],
-          ["14", "Observar no painel se a carga está acima de 20%. (Abaixo de 20%, risco de queima de placas)"],
-          ["15", "Verificar informação nas colunas da torre"],
-          
+          ["1", "Qual a indicação do horímetro? (Inicio ou Fim do Turno)", "Preencher no início do turno", "horimetro"], // O quarto elemento indica que é um campo de input
+          ["2", "O cinto de segurança está funcionando corretamente?", "Verificar o travamento e o destravamento do cinto"],
+          ["3", "A buzina e a sirena de ré estão funcionando?", "Acionar os comandos e certificar-se que há emissão de som para os dois itens"],
+          ["4", "A trava de segurança da bateria está corretamente posicionada? (Empilhadeiras elétricas)", "Verificar se está devidamente travada"],
+          ["5", "O sistema de freios (estacionamento, aproximação e pedal) e o sistema de direção estão em condições normais de funcionamento?", "Movimentar a empilhadeira para frente, para trás e para as laterais, checando se existe alguma anomalia"],
+          ["6", "O sistema de freios está isento de vazamentos?", "Observar e certificar-se que não há vazamentos"],
+          ["7", "Extintor existente, lacrado, com carga e dentro da validade?", "Verificar se manômetro está no verde (pressurizado)"],
+          ["8", "O sistema de sinalização padrão (farol, lanterna, seta, luz de ré/freio e giroflex) está em condições normais de funcionamento?", "Acionar os comandos e certificar-se que todos itens acendem"],
+          ["9", "O sistema de alimentação (mangueiras, conexões e botijão) está isento de odor ou aspecto que indique vazamento de gás? (Empilhadeiras movidas a GLP)", "Certificar-se que não há odor de gás no registro e na mangueira"],
+          ["10", "Os pneus, rodas e parafusos estão em boas condições de uso?", "Observar nível de desgaste dos itens e calibração dos pneus. Certificar-se que não há anomalias"],
+          ["11", "A torre, a corrente da torre e os garfos estão em boas condições de uso?", "Observar se há trincas e o nível desgaste dos itens. Certificar-se que não há anomalias"],
+          ["12", "O sistema hidráulico da torre (elevação, inclinação e deslocamento) está em condições normais de funcionamento?", "Acionar todas as alavancas (comandos) e certificar-se que não há anomalias"],
+          ["13", "A estrutura (pintura, carenagem, assento, retrovisores e pintura) da empilhadeira está isenta de avarias ou danos?", "Realizar inspeção visual (geral) do equipamento"],
+          ["14", "O sistema de refrigeração do motor (radiador) apresenta nível de água normal?", "Verificar se o nível do radiador está entre o nível mínimo e o máximo"],
+          ["15", "O nível de carga de bateria está adequado?", "Observar no painel se a carga está acima de 20%. (Abaixo de 20%, risco de queima de placas)"],
+          ["16", "Identificação de capacidade de carga em local visível e legível?", "Verificar informação nas colunas da torre"],
         ];
 
         for (let i = 0; i < atividades.length; i++) {
+          const isHorimetro = atividades[i][3] === "horimetro"; // Agora é o quarto elemento
           document.write(`
             <tr>
               <td>${atividades[i][0]}</td>
               <td>${atividades[i][1]}</td>
-              <td>
-                <input type="checkbox" name="atividade_${i+1}" value="Conforme"
-                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Conforme')">
-              </td>
-              <td>
-                <input type="checkbox" name="atividade_${i+1}" value="Não Conforme"
-                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Conforme')">
-              </td>
-              <td>
-                <input type="checkbox" name="atividade_${i+1}" value="Não Aplica"
-                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Aplica')">
-              </td>
+              <td>${atividades[i][2]}</td> ${isHorimetro ? `
+                <td>
+                  <input type="number" name="resposta_atividade_${i+1}_horimetro" placeholder="Digite as horas" style="width: 100px;">
+                </td>
+                <td colspan="3"></td> ` : `
+                <td></td> <td>
+                  <input type="checkbox" name="atividade_${i+1}" value="Conforme"
+                    onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Conforme')">
+                </td>
+                <td>
+                  <input type="checkbox" name="atividade_${i+1}" value="Não Conforme"
+                    onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Conforme')">
+                </td>
+                <td>
+                  <input type="checkbox" name="atividade_${i+1}" value="Não Aplica"
+                    onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Aplica')">
+                </td>
+              `}
               <input type="hidden" name="hora_atividade_${i+1}">
               <input type="hidden" name="resposta_atividade_${i+1}">
             </tr>
@@ -217,10 +225,15 @@
     checkboxes.forEach(c => {
       if (c !== checkbox) c.checked = false;
     });
-    const horaCampo = document.querySelector(`[name=hora_${nomeAtividade}]`);
-    const respostaCampo = document.querySelector(`[name=resposta_${nomeAtividade}]`);
-    horaCampo.value = new Date().toLocaleString('pt-BR');
-    respostaCampo.value = valorSelecionado;
+    // Apenas para atividades com checkbox, o campo resposta_atividade_X é preenchido
+    const respostaCampo = document.querySelector(`[name=resposta_atividade_${nomeAtividade.split('_')[1]}]`);
+    if (respostaCampo) {
+      respostaCampo.value = valorSelecionado;
+    }
+    const horaCampo = document.querySelector(`[name=hora_${nomeAtividade.split('_')[1]}]`);
+    if (horaCampo) {
+        horaCampo.value = new Date().toLocaleString('pt-BR');
+    }
   }
 
   document.getElementById("checklistForm").addEventListener("submit", function(e) {
@@ -235,17 +248,26 @@
       return;
     }
 
-    let algumaMarcada = false;
-    for (let i = 1; i <= atividades.length; i++) {
-      const resposta = document.querySelector(`[name=resposta_atividade_${i}]`).value;
-      if (resposta === "Conforme" || resposta === "Não Conforme" || resposta === "Não Aplica") {
-        algumaMarcada = true;
-        break;
-      }
+    let algumaMarcadaOuPreenchida = false;
+    for (let i = 0; i < atividades.length; i++) {
+        // Se a atividade for o horímetro (verificando o quarto elemento do array de atividade)
+        if (atividades[i][3] === "horimetro") {
+            const horimetroValor = document.querySelector(`[name=resposta_atividade_${i+1}_horimetro]`).value;
+            if (horimetroValor !== "") {
+                algumaMarcadaOuPreenchida = true;
+                break;
+            }
+        } else {
+            const resposta = document.querySelector(`[name=resposta_atividade_${i+1}]`).value;
+            if (resposta === "Conforme" || resposta === "Não Conforme" || resposta === "Não Aplica") {
+                algumaMarcadaOuPreenchida = true;
+                break;
+            }
+        }
     }
 
-    if (!algumaMarcada) {
-      alert("Marque pelo menos uma atividade.");
+    if (!algumaMarcadaOuPreenchida) {
+      alert("Preencha o horímetro ou marque pelo menos uma atividade.");
       return;
     }
 
@@ -261,7 +283,28 @@
     formData.append("unidade", unidade);
     formData.append("empilhadeira", empilhadeira);
 
-    fetch("https://script.google.com/macros/s/AKfycbzVlhCBTjG5_dFALeplhOE659e7YmblWrjSCCmEbw0VAkJRTbKl5jLl--0rAHoJB7Cg/exec", {
+    // Iterar sobre as atividades para pegar as respostas e a nova coluna "Como é feita a conferência"
+    for (let i = 0; i < atividades.length; i++) {
+        const itemNumber = atividades[i][0];
+        const descricaoConferencia = atividades[i][2]; // O terceiro elemento é a descrição da conferência
+
+        // Adiciona a descrição da conferência aos dados do formulário
+        formData.append(`como_conferencia_atividade_${itemNumber}`, descricaoConferencia);
+
+        if (atividades[i][3] === "horimetro") {
+            const horimetroValor = document.querySelector(`[name=resposta_atividade_${itemNumber}_horimetro]`).value;
+            formData.append(`resposta_atividade_${itemNumber}`, horimetroValor); // Usa o mesmo nome para a resposta final
+            // Não há um horário específico para o horímetro, então não adicionamos aqui
+        } else {
+            const resposta = document.querySelector(`[name=resposta_atividade_${itemNumber}]`).value;
+            const horario = document.querySelector(`[name=hora_atividade_${itemNumber}]`).value;
+            formData.append(`resposta_atividade_${itemNumber}`, resposta);
+            formData.append(`hora_atividade_${itemNumber}`, horario);
+        }
+    }
+
+
+    fetch("https://script.google.com/macros/s/AKfycbwwCjXOPhUW5xOt1TBGkE4Yd8S37rTcFUnSbD2Rz6fouYBlt8KR5deZ7B8nFPh7-hyA/exec", {
       method: "POST",
       body: formData
     })
