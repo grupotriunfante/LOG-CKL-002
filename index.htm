@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Checklist Diário - Empilhadeira</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 30px;
+      background-color: #f8f9fa;
+      color: #333;
+      transition: all 0.3s ease-in-out;
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-out;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      animation: slideIn 1s ease-out;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+      transition: all 0.3s ease-in-out;
+    }
+    th {
+      background-color: #e9ecef;
+      color: #007bff;
+    }
+    td:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+    .form-container {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      animation: fadeInUp 1s ease-out;
+    }
+    .form-container label {
+      font-size: 14px;
+      margin-right: 10px;
+      color: #333;
+      width: 100%;
+    }
+    .form-container input, .form-container select {
+      padding: 8px;
+      margin-right: 15px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease-in-out;
+      margin-bottom: 10px;
+      width: 48%;
+    }
+    .form-container input:focus, .form-container select:focus {
+      border-color: #007bff;
+    }
+    .form-container button {
+      padding: 12px 25px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: all 0.3s ease-in-out;
+    }
+    .form-container button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(0); }
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div style="display: flex; align-items: center; gap: 20px;">
+  <img src="https://i.imgur.com/L55qh7b.png" alt="Logo" style="width: 60px; height: auto;">
+  <img src="https://i.imgur.com/WzaQvTL.png" alt="Logo" style="width: 45px; height: auto;">
+  <h1 style="font-size: 32px; margin: 0;">Checklist de Empilhadeira</h1>
+</div>
+<h5>LOG-CKL-002 Rev:01</h5>
+<div class="form-container" style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+  <div style="flex: 2;">
+    <label for="nome">Nome do Operador:</label>
+    <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required style="width: 100%;">
+  </div>
+
+  <div style="flex: 1;">
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data" required style="width: 100%;">
+  </div>
+
+  <div style="flex: 1;">
+    <label for="unidade">Unidade:</label>
+    <select id="unidade" name="unidade" required style="width: 100%;">
+      <option value="">Selecione</option>
+      <option value="TCA">TCA</option>
+      <option value="TCV">TCV</option>
+      <option value="ABC">ABC</option>
+      <option value="MCD">MCD</option>
+      <option value="TBL">TBL</option>
+      <option value="TPA">TPA</option>
+      <option value="TBA">TBA</option>
+      <option value="TSJ">TSJ</option>
+      <option value="API">API</option>
+      <option value="TPH">TPH</option>
+      <option value="TCG">TCG</option>
+    </select>
+  </div>
+    <div style="flex: 1;">
+        <label for="empilhadeira">Nº Empilhadeira:</label>
+        <input type="text" id="empilhadeira" name="empilhadeira" placeholder="Ex: Emp-001" required style="width: 100%;">
+    </div>
+</div>
+
+
+<form id="checklistForm">
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Descrição da Verificação</th>
+        <th>Conforme</th>
+        <th>Não Conforme</th>
+        <th>Não Aplica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <script>
+        const atividades = [
+          ["1", "Verificar o travamento e o destravamento do cinto"],
+          ["2", "Acionar os comandos e certificar-se que há emissão de som para os dois itens"],
+          ["3", "Verificar se está devidamente travada"],
+          ["4", "Movimentar a empilhadeira para frente, para trás e para as laterais, checando se existe alguma anomalia"],
+          ["5", "Observar e certificar-se que não há vazamentos"],
+          ["6", "Verificar se manômetro está no verde (pressurizado)"],
+          ["7", "Acionar os comandos e certificar-se que todos itens acendem"],
+          ["8", "Certificar-se que não há odor de gás no registro e na mangueira"],
+          ["9", "Observar nível de desgaste dos itens e calibração dos pneus. Certificar-se que não há anomalias"],
+          ["10", "Observar se há trincas e o nível desgaste dos itens. Certificar-se que não há anomalias"],
+          ["11", "Acionar todas as alavancas (comandos) e certificar-se que não há anomalias"],
+          ["12", "Realizar inspeção visual (geral) do equipamento"],
+          ["13", "Verificar se o nível do radiador está entre o nível mínimo e o máximo"],
+          ["14", "Observar no painel se a carga está acima de 20%. (Abaixo de 20%, risco de queima de placas)"],
+          ["15", "Verificar informação nas colunas da torre"],
+          
+        ];
+
+        for (let i = 0; i < atividades.length; i++) {
+          document.write(`
+            <tr>
+              <td>${atividades[i][0]}</td>
+              <td>${atividades[i][1]}</td>
+              <td>
+                <input type="checkbox" name="atividade_${i+1}" value="Conforme"
+                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Conforme')">
+              </td>
+              <td>
+                <input type="checkbox" name="atividade_${i+1}" value="Não Conforme"
+                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Conforme')">
+              </td>
+              <td>
+                <input type="checkbox" name="atividade_${i+1}" value="Não Aplica"
+                  onclick="toggleCheckbox(event, this, 'atividade_${i+1}', 'Não Aplica')">
+              </td>
+              <input type="hidden" name="hora_atividade_${i+1}">
+              <input type="hidden" name="resposta_atividade_${i+1}">
+            </tr>
+          `);
+        }
+      </script>
+    </tbody>
+  </table>
+
+  <div class="form-container">
+    <button type="submit" id="submitBtn">Enviar</button>
+  </div>
+</form>
+
+<script>
+  let formularioEnviado = false;
+
+  window.addEventListener("beforeunload", function (e) {
+    if (!formularioEnviado) {
+      e.preventDefault();
+      e.returnValue = "Você tem certeza que deseja sair? As informações preenchidas serão perdidas.";
+    }
+  });
+
+  function toggleCheckbox(event, checkbox, nomeAtividade, valorSelecionado) {
+    const checkboxes = document.getElementsByName(nomeAtividade);
+    checkboxes.forEach(c => {
+      if (c !== checkbox) c.checked = false;
+    });
+    const horaCampo = document.querySelector(`[name=hora_${nomeAtividade}]`);
+    const respostaCampo = document.querySelector(`[name=resposta_${nomeAtividade}]`);
+    horaCampo.value = new Date().toLocaleString('pt-BR');
+    respostaCampo.value = valorSelecionado;
+  }
+
+  document.getElementById("checklistForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const nome = document.getElementById("nome").value;
+    const data = document.getElementById("data").value;
+    const unidade = document.getElementById("unidade").value;
+    const empilhadeira = document.getElementById("empilhadeira").value;
+
+    if (!nome || !data || !unidade || !empilhadeira) {
+      alert("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    let algumaMarcada = false;
+    for (let i = 1; i <= atividades.length; i++) {
+      const resposta = document.querySelector(`[name=resposta_atividade_${i}]`).value;
+      if (resposta === "Conforme" || resposta === "Não Conforme" || resposta === "Não Aplica") {
+        algumaMarcada = true;
+        break;
+      }
+    }
+
+    if (!algumaMarcada) {
+      alert("Marque pelo menos uma atividade.");
+      return;
+    }
+
+    if (!confirm("Tem certeza que deseja enviar?")) return;
+
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+    const formData = new FormData(document.getElementById("checklistForm"));
+    formData.append("nome", nome);
+    formData.append("data", data);
+    formData.append("unidade", unidade);
+    formData.append("empilhadeira", empilhadeira);
+
+    fetch("https://script.google.com/macros/s/AKfycbzVlhCBTjG5_dFALeplhOE659e7YmblWrjSCCmEbw0VAkJRTbKl5jLl--0rAHoJB7Cg/exec", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      formularioEnviado = true;
+      alert("Dados enviados com sucesso!");
+      location.reload();
+    })
+    .catch(error => {
+      alert("Erro ao enviar os dados: " + error);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Enviar";
+    });
+  });
+  
+</script>
+<div style="text-align: center; margin-top: 60px; margin-bottom: 20px;">
+  <a href="mailto:luis.correia@triunfante.com.br,marcelo.portella@triunfante.com.br,raphael.bortot@triunfante.com.br,daniela.nachbar@triunfante.com.br?subject=Ajuda%20-%20Checklist%20Empilhadeira"
+    style="
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #f1f1f1;
+      color: #333;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid #ccc;
+      transition: all 0.3s ease;
+    "
+    onmouseover="this.style.backgroundColor='#e2e2e2'"
+    onmouseout="this.style.backgroundColor='#f1f1f1'">
+    💬 Fale com o suporte
+  </a>
+</div>
+
+<script>
+  window.onload = function () {
+    const dataInput = document.getElementById("data");
+    const agora = new Date(); 
+    const ano = agora.getFullYear();
+    const mes = String(agora.getMonth() + 1).padStart(2, '0'); 
+    const dia = String(agora.getDate()).padStart(2, '0');
+
+    const hojeFormatado = `${ano}-${mes}-${dia}`;
+    
+    dataInput.value = hojeFormatado; 
+    dataInput.min = hojeFormatado;   
+    dataInput.max = hojeFormatado;   
+    dataInput.readOnly = true;     
+    dataInput.style.pointerEvents = 'none'; 
+    dataInput.style.backgroundColor = '#e9ecef'; 
+  };
+</script>
+
+</body>
+</html>
